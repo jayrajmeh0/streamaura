@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
+import { useAuth, AuthProvider } from './contexts/AuthContext';
 import Layout from './components/Layout/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -16,57 +16,69 @@ import Broadcast from './pages/Broadcast/Broadcast';
 import ViewerJoin from './pages/Viewer/ViewerJoin';
 import WatchStream from './pages/Viewer/WatchStream';
 
+const AppRoutes = () => {
+  const { isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Or a Spinner component
+  }
+
+  return (
+    <Routes>
+      {/* Public routes */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* Routes with layout */}
+      <Route path="/" element={<Layout><Home /></Layout>} />
+      <Route path="/viewer" element={<Layout><ViewerJoin /></Layout>} />
+      <Route path="/watch/:streamId" element={<Layout><WatchStream /></Layout>} />
+
+      {/* Protected routes */}
+      <Route path="/dashboard" element={
+        <Layout>
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        </Layout>
+      } />
+      <Route path="/channels" element={
+        <Layout>
+          <ProtectedRoute>
+            <Channels />
+          </ProtectedRoute>
+        </Layout>
+      } />
+      <Route path="/channels/create" element={
+        <Layout>
+          <ProtectedRoute>
+            <CreateChannel />
+          </ProtectedRoute>
+        </Layout>
+      } />
+      <Route path="/streams/create" element={
+        <Layout>
+          <ProtectedRoute>
+            <CreateStream />
+          </ProtectedRoute>
+        </Layout>
+      } />
+      <Route path="/broadcast/:streamId" element={
+        <Layout>
+          <ProtectedRoute>
+            <Broadcast />
+          </ProtectedRoute>
+        </Layout>
+      } />
+    </Routes>
+  );
+};
+
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          
-          {/* Routes with layout */}
-          <Route path="/" element={<Layout><Home /></Layout>} />
-          <Route path="/viewer" element={<Layout><ViewerJoin /></Layout>} />
-          <Route path="/watch/:streamId" element={<Layout><WatchStream /></Layout>} />
-          
-          {/* Protected routes */}
-          <Route path="/dashboard" element={
-            <Layout>
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            </Layout>
-          } />
-          <Route path="/channels" element={
-            <Layout>
-              <ProtectedRoute>
-                <Channels />
-              </ProtectedRoute>
-            </Layout>
-          } />
-          <Route path="/channels/create" element={
-            <Layout>
-              <ProtectedRoute>
-                <CreateChannel />
-              </ProtectedRoute>
-            </Layout>
-          } />
-          <Route path="/streams/create" element={
-            <Layout>
-              <ProtectedRoute>
-                <CreateStream />
-              </ProtectedRoute>
-            </Layout>
-          } />
-          <Route path="/broadcast/:streamId" element={
-            <Layout>
-              <ProtectedRoute>
-                <Broadcast />
-              </ProtectedRoute>
-            </Layout>
-          } />
-        </Routes>
+        <AppRoutes />
       </Router>
     </AuthProvider>
   );

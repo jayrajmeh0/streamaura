@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authService } from '../services/api';
 
@@ -15,6 +16,7 @@ interface AuthContextType {
   register: (userData: RegisterData) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 interface RegisterData {
@@ -41,15 +43,17 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const storedUser = localStorage.getItem('user');
-    
+
     if (storedToken && storedUser && storedUser !== 'undefined') {
       try {
         setToken(storedToken);
         setUser(JSON.parse(storedUser));
+
       } catch (error) {
         console.error('Error parsing stored user data:', error);
         // Clear invalid data
@@ -57,16 +61,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem('user');
       }
     }
+
+    setIsLoading(false); // Done loading auth info
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
       const response = await authService.login(email, password);
       const { token: newToken, user: userData } = response.data;
-      
       setToken(newToken);
       setUser(userData);
-      
+
       localStorage.setItem('token', newToken);
       localStorage.setItem('user', JSON.stringify(userData));
     } catch (error) {
@@ -78,10 +83,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response = await authService.register(userData);
       const { token: newToken, user: newUser } = response.data;
-      
+
       setToken(newToken);
       setUser(newUser);
-      
+
       localStorage.setItem('token', newToken);
       localStorage.setItem('user', JSON.stringify(newUser));
     } catch (error) {
@@ -102,7 +107,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     register,
     logout,
-    isAuthenticated: !!token
+    isAuthenticated: !!token,
+    isLoading
   };
 
   return (
