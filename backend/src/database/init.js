@@ -13,23 +13,12 @@ async function getDatabase() {
   const client = await pool.connect();
 
   try {
-    // pgcrypto extension
-    // await client.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto";`);
-    // console.log('✅ pgcrypto extension ensured');
-    const checkExtension = `
-      SELECT extname FROM pg_extension WHERE extname = 'pgcrypto';
-    `;
-    const res = await client.query(checkExtension);
+    // Ensure pgcrypto extension exists (must be outside transaction)
+    await client.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto";`);
+    console.log('✅ pgcrypto extension ensured');
 
     await client.query('BEGIN');
     console.log('🔄 Starting DB initialization transaction...');
-
-    if (res.rows.length === 0) {
-      await client.query(`CREATE EXTENSION "pgcrypto";`);
-      console.log('✅ pgcrypto extension created');
-    } else {
-      console.log('ℹ️ pgcrypto extension already exists');
-    }
 
     const tables = [
       {
@@ -133,7 +122,7 @@ async function getDatabase() {
   } catch (error) {
     await client.query('ROLLBACK');
     console.error('🔥 Rolling back DB init due to error:', error.message);
-    throw error;
+    getDatabase()
   } finally {
     client.release();
   }

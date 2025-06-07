@@ -54,7 +54,7 @@ root/
 
 ### 1. Install MediaMTX
 
-install [MediaMTX](https://github.com/bluenviron/mediamtx/releases) for your OS.
+install MediaMTX for your OS.
 
 Run `mediaMTX -> mediamtx.exe` to start the media server.
 
@@ -77,7 +77,7 @@ This will start:
 ### 3. Start Frontend
 
 ```bash
-cd frontend
+cd frontendjm
 npm install
 npm run dev
 ```
