@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Users } from 'lucide-react';
 import { channelService } from '../../services/api';
 
 const CreateChannel: React.FC = () => {
+  const { channelId } = useParams<{ channelId: string }>();
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    id: null
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -26,7 +28,9 @@ const CreateChannel: React.FC = () => {
     setError('');
 
     try {
-      await channelService.createChannel(formData);
+      if (!channelId) {
+        await channelService.createChannel(formData);
+      }
       navigate('/channels');
     } catch (err: any) {
       setError(err.message || 'Failed to create channel');
@@ -34,6 +38,30 @@ const CreateChannel: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (channelId) {
+      getChannelById(channelId);
+    }
+  }, [channelId]);
+
+  const getChannelById = async (channelId: string) => {
+    try {
+      const response = await channelService.getChannelById(channelId);
+      if (response?.data)
+        setFormData({
+          name: response?.data.name,
+          description: response?.data.description,
+          id: response?.data.id
+        })
+    } catch (err: any) {
+      setError(err.message || 'Failed to create channel');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
 
   return (
     <div className="max-w-2xl">
@@ -46,7 +74,7 @@ const CreateChannel: React.FC = () => {
           <ArrowLeft className="h-5 w-5 mr-2" />
           Back
         </button>
-        <h1 className="text-3xl font-bold text-gray-900">Create Channel</h1>
+        <h1 className="text-3xl font-bold text-gray-900">  {channelId ? 'Update Channel' : 'Create Channel'}</h1>
         <p className="text-gray-600 mt-2">Set up your broadcasting channel</p>
       </div>
 
@@ -116,7 +144,7 @@ const CreateChannel: React.FC = () => {
                   Creating...
                 </div>
               ) : (
-                'Create Channel'
+                channelId ? <>Update Channel</> : <>Create Channel</>
               )}
             </button>
           </div>

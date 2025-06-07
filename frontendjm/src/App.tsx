@@ -56,6 +56,13 @@ const AppRoutes = () => {
           </ProtectedRoute>
         </Layout>
       } />
+      <Route path="/channels/:channelId" element={
+        <Layout>
+          <ProtectedRoute>
+            <CreateChannel />
+          </ProtectedRoute>
+        </Layout>
+      } />
       <Route path="/streams/create" element={
         <Layout>
           <ProtectedRoute>
