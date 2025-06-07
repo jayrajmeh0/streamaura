@@ -12,12 +12,12 @@ router.post(
     body('firstName')
       .isString()
       .trim()
-      .isLength({ min: 3, max: 30 })
+      .isLength({ min: 1, max: 30 })
       .withMessage('firstName must be between 3 and 30 characters'),
     body('lastName')
       .isString()
       .trim()
-      .isLength({ min: 3, max: 30 })
+      .isLength({ min: 1, max: 30 })
       .withMessage('lastName must be between 3 and 30 characters'),
     body('email')
       .isEmail()
@@ -25,7 +25,7 @@ router.post(
       .withMessage('Please provide a valid email address'),
     body('password')
       .isString()
-      .isLength({ min: 6 })
+      .isLength({ min: 1 })
       .withMessage('Password must be at least 6 characters long')
   ],
   register
