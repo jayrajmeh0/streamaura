@@ -1,4 +1,5 @@
-# 🧵 Lightweight OTT Streaming Platform
+# 🧵 Stream Hub
+A lightweight OTT Streaming Platform.
 
 ## 📖 Project Overview
 
