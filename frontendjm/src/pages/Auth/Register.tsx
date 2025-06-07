@@ -51,7 +51,7 @@ const Register: React.FC = () => {
               Create your account
             </h2>
             <p className="mt-2 text-sm text-gray-600">
-              Join StreamHub and start broadcasting
+              Join StreamAura and start broadcasting
             </p>
           </div>
           

@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2 text-purple-600 hover:text-purple-700 transition-colors">
               <Video className="h-8 w-8" />
-              <span className="text-xl font-bold">StreamHub</span>
+              <span className="text-xl font-bold">StreamAura</span>
             </Link>
           </div>
 

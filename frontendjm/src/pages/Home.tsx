@@ -66,7 +66,7 @@ const Home: React.FC = () => {
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl text-white p-8 md:p-12">
         <div className="max-w-3xl">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            Welcome to StreamHub
+            Welcome to StreamAura
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-purple-100">
             Broadcast your passion, connect with your audience, and build your community
