@@ -69,7 +69,7 @@ const Home: React.FC = () => {
             Welcome to StreamAura
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-purple-100">
-            Broadcast your passion, connect with your audience, and build your community
+            Aura of Intelligence – Broadcast your passion, engage minds, and grow your community.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
