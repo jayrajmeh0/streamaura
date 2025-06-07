@@ -135,7 +135,7 @@ const ViewerJoin: React.FC = () => {
               to="/"
               className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-medium"
             >
-              Explore StreamHub
+              Explore StreamAura
             </Link>
           </div>
         ) : (
