@@ -8,7 +8,7 @@ interface Stream {
   title: string;
   description: string;
   status: string;
-  createdAt: string;
+  created_at: string;
   startedAt?: string;
   channel: {
     id: string;
@@ -131,7 +131,7 @@ const Home: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 text-sm text-gray-500">
                       <Clock className="h-4 w-4" />
-                      <span>{new Date(stream.createdAt).toLocaleDateString()}</span>
+                      <span>{new Date(stream.created_at).toLocaleDateString()}</span>
                     </div>
                     <Link
                       to={`/watch/${stream.id}`}

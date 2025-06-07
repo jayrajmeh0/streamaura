@@ -8,14 +8,14 @@ interface Channel {
   id: string;
   name: string;
   description: string;
-  createdAt: string;
+  created_at: string;
 }
 
 interface Stream {
   id: string;
   title: string;
   status: string;
-  createdAt: string;
+  created_at: string;
   channel: {
     name: string;
   };
@@ -132,7 +132,7 @@ const Dashboard: React.FC = () => {
               <p className="text-sm font-medium text-gray-600">This Month</p>
               <p className="text-2xl font-bold text-gray-900">
                 {recentStreams.filter(s => {
-                  const streamDate = new Date(s.createdAt);
+                  const streamDate = new Date(s.created_at);
                   const currentDate = new Date();
                   return streamDate.getMonth() === currentDate.getMonth();
                 }).length}
