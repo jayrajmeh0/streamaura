@@ -177,12 +177,12 @@ const Dashboard: React.FC = () => {
                       <h3 className="font-medium text-gray-900">{channel.name}</h3>
                       <p className="text-sm text-gray-500">{channel.description}</p>
                     </div>
-                    <Link
+                    {/* <Link
                       to={`/channels/${channel.id}`}
                       className="text-purple-600 hover:text-purple-700 text-sm font-medium"
                     >
                       Manage
-                    </Link>
+                    </Link> */}
                   </div>
                 ))}
               </div>

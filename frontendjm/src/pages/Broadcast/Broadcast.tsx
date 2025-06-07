@@ -8,7 +8,7 @@ interface Stream {
   title: string;
   description: string;
   status: string;
-  createdAt: string;
+  created_at: string;
   startedAt?: string;
   channel: {
     name: string;
@@ -153,13 +153,14 @@ const Broadcast: React.FC = () => {
             <h1 className="text-2xl font-bold text-gray-900">{stream.title}</h1>
             <p className="text-gray-600">{stream?.channel?.name}</p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-              isLive ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
-            }`}>
-              {isLive ? '🔴 LIVE' : stream.status.toUpperCase()}
+          {
+            isLive && <div className="flex items-center space-x-4">
+              <div className={`px-3 py-1 rounded-full text-sm font-medium ${isLive ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'
+                }`}>
+                {isLive ? '🔴 LIVE' : stream.status.toUpperCase()}
+              </div>
             </div>
-          </div>
+          }
         </div>
 
         {stream.description && (
@@ -169,11 +170,11 @@ const Broadcast: React.FC = () => {
         <div className="flex items-center space-x-6 text-sm text-gray-500">
           <div className="flex items-center space-x-1">
             <Users className="h-4 w-4" />
-            <span>{viewerCount} viewers</span>
+            <span>{viewerCount || 0} Viewers</span>
           </div>
           <div className="flex items-center space-x-1">
             <Clock className="h-4 w-4" />
-            <span>Created {new Date(stream.createdAt).toLocaleDateString()}</span>
+            <span>Created {new Date(stream.created_at).toLocaleDateString()}</span>
           </div>
         </div>
       </div>
@@ -212,10 +213,10 @@ const Broadcast: React.FC = () => {
                   {endingStream ? 'Ending...' : 'End Stream'}
                 </button>
               )}
-              <button className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2">
+              {/* <button className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2">
                 <Settings className="h-4 w-4" />
                 Settings
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -246,7 +247,7 @@ const Broadcast: React.FC = () => {
             <div className="space-y-3">
               <div>
                 <p className="text-sm font-medium text-gray-700">Stream URL</p>
-                <p className="text-xs text-gray-500 bg-gray-50 p-2 rounded mt-1 font-mono">{window.location.origin}/watch/{stream.id}</p>
+                <p className="text-xs text-gray-500 bg-gray-50 p-2 rounded mt-1 font-mono"><a href={`${window.location.origin}/watch/${stream.id}`}>{window.location.origin}/watch/{stream.id}</a></p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">Stream Key</p>
@@ -258,10 +259,12 @@ const Broadcast: React.FC = () => {
           <div className="bg-white rounded-lg shadow-sm p-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
             <div className="space-y-3">
-              <button onClick={() => window.open(`/watch/${stream.id}`, '_blank')} className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3">
-                <Eye className="h-4 w-4 text-gray-400" />
-                <span className="text-sm font-medium">Preview Stream</span>
-              </button>
+              {
+                isLive && <button disabled={!isLive} onClick={() => window.open(`/watch/${stream.id}`, '_blank')} className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-3">
+                  <Eye className="h-4 w-4 text-gray-400" />
+                  <span className="text-sm font-medium">Preview Stream</span>
+                </button>
+              }
               <button onClick={() => navigate('/dashboard')} className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                 <span className="text-sm font-medium">Back to Dashboard</span>
               </button>

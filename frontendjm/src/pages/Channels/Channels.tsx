@@ -7,7 +7,7 @@ interface Channel {
   id: string;
   name: string;
   description: string;
-  createdAt: string;
+  created_at: string;
 }
 
 const Channels: React.FC = () => {
@@ -87,12 +87,12 @@ const Channels: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-xl font-semibold text-gray-900">{channel.name}</h3>
                   <div className="flex items-center space-x-2">
-                    <Link
+                    {/* <Link
                       to={`/channels/${channel.id}/edit`}
                       className="p-2 text-gray-400 hover:text-purple-600 transition-colors"
                     >
                       <Edit className="h-4 w-4" />
-                    </Link>
+                    </Link> */}
                     <button
                       onClick={() => handleDeleteChannel(channel.id)}
                       className="p-2 text-gray-400 hover:text-red-600 transition-colors"
@@ -106,7 +106,7 @@ const Channels: React.FC = () => {
                 
                 <div className="flex items-center text-sm text-gray-500 mb-4">
                   <Calendar className="h-4 w-4 mr-2" />
-                  Created {new Date(channel.createdAt).toLocaleDateString()}
+                  Created {new Date(channel.created_at).toLocaleDateString()}
                 </div>
               </div>
               
