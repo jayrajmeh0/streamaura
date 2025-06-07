@@ -13,9 +13,6 @@ async function getDatabase() {
   const client = await pool.connect();
 
   try {
-    await client.query('BEGIN');
-    console.log('🔄 Starting DB initialization transaction...');
-
     // pgcrypto extension
     // await client.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto";`);
     // console.log('✅ pgcrypto extension ensured');
@@ -23,6 +20,9 @@ async function getDatabase() {
       SELECT extname FROM pg_extension WHERE extname = 'pgcrypto';
     `;
     const res = await client.query(checkExtension);
+
+    await client.query('BEGIN');
+    console.log('🔄 Starting DB initialization transaction...');
 
     if (res.rows.length === 0) {
       await client.query(`CREATE EXTENSION "pgcrypto";`);
